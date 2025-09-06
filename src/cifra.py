@@ -3,12 +3,18 @@
 # Disciplina: Criptografia
 
 
+import re
+from Crypto.Cipher import AES
+from Crypto.Random import get_random_bytes
+
 def readFile():
     return True
 
 
-def formatFile():
-    return True
+def formatFile(cleanText):
+    cleanText = cleanText.upper().replace("J", "I")     # Substitui o J por I
+    cleanText = re.sub(r"[^A-Z]", "", cleanText)        # mantém só A–Z
+    return cleanText
 
 
 def timeExecution():
@@ -158,25 +164,55 @@ def cesarEncrypt(text, value):
     return encryptedText
     
     
-def encrypt(cleanText, key):
+def pizaoEncrypt(inputFile, outputFile, key):
+    try:
+        #Leitura do arquivo
+        with open(inputFile, "r", encoding="utf-8") as f:
+            cleanText = f.read()       
+    except Exception as e:
+        print(f"Ocorreu um erro ao criptografar com Pizao: {e}")
+        return    
+    
+    cleanText = formatFile(cleanText)
     value, encryptedTextPF = playfairEncript(cleanText, key)
     encryptedTextC = cesarEncrypt (encryptedTextPF, value)    
-    print ("resultado final: ", encryptedTextC)   
+    print ("resultado final do Alg Pizao: ", encryptedTextC)
+    
+    with open(outputFile, 'w') as f:
+        f.write(encryptedTextC)
     
     
+# Referência para o alg. AES: https://medium.com/@dheeraj.mickey/how-to-encrypt-and-decrypt-files-in-python-using-aes-a-step-by-step-guide-d0eb6f525e4e
 
-def aesEncrypt():
-    return 0
-    
-    
-
-phrase = "CRIPTOGRAFIA"
-key = "HELOISA"
-
-encrypt (phrase, key)
+# Dados devem ser multiplos de 16 bytes. Caso contrario, precisaremos preencher
+def pad(data):
+    padding_length = 16 - len(data) % 16
+    padding = bytes([padding_length] * padding_length)
+    return data + padding
 
 
-    
-    
-    
-    
+def aesEncrypt(input_file, output_file):
+    # Gera valores aleatorios em bytes (Questões de segurança)
+    key = get_random_bytes(32)      # Chave
+    iv = get_random_bytes(16)       # Vetor de inicialização
+    cipher = AES.new (key, AES.MODE_CBC, iv)
+    try:
+        #Leitura do arquivo
+        with open (input_file, 'rb') as f:
+            plaintext = f.read()
+        # Realiza o preenchiemtno
+        padded_plaintext = pad(plaintext)
+        # O texto é criptografado
+        ciphertext = cipher.encrypt(padded_plaintext)
+        
+        #o texto criptografado é salvo em um arquivo de saída
+        with open(output_file, 'wb') as f:
+            f.write(ciphertext)
+        
+        #As chaves e o vetor de inicilização são salvos para serem usados no decrypt
+        encoded_key = key.hex()
+        encoded_iv = iv.hex()
+        return encoded_key, encoded_iv
+    except Exception as e:
+        print(f"Ocorreu um erro ao tentar criptografar com o AES: {e}")
+        return None, None

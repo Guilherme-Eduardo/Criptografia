@@ -29,3 +29,29 @@
 
 - Um **relatório** com detalhes da cifra e da implementação.  
 - Incluir **gráficos de barras** comparando os resultados com o **AES**.
+
+## Como rodar
+
+1. Criar um ambiente virtual:
+
+   ```bash
+   python3 -m venv venv
+   ```
+
+2. Ativar o ambiente virtual:
+
+   ```bash
+   source venv/bin/activate
+   ```
+
+3. Instalar os pacotes necessários:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Executar o programa:
+
+   ```bash
+   python3 src/main.py
+   ```
