@@ -51,19 +51,6 @@ def transposition(matrix):
     matrix[line][column] = first  
     return index, matrix
 
-def cesarDecrypt(text, value):
-    alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ"
-    decryptedText = ""
-    
-    for i in range (len(text)):
-        #Pegando o modulo, nunca vamos correr o risco de acessar uma regiao de memoria nao alocada
-        position = (alphabet.index(text[i]) - (value + 1)) % len(alphabet)
-        decryptedText += alphabet[position]
-            
-    print ("Texto decifrado com a cifra de Cesar: ", decryptedText)
-
-    return decryptedText
-
 # Encontra as posições de linha e coluna da respectiva letra na matriz playfair
 def findPositionMatrix(matrix, char):
     line = 0
@@ -100,53 +87,95 @@ def playfairSubstitutionDec(matrix, line1, line2, column1, column2):
     else:
         return matrix[line1][column2], matrix[line2][column1]
 
-# Todo o processo de criptografia da playfair
-def playfairDecript(text, key):
-#Cria a matriz e já faz a transposição
+def cesarDecrypt(text, value):
+    alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ"
+    decryptedText = ""
+    
+    for ch in text:
+        if ch.isdigit():  
+            # mantém números sem alteração
+            decryptedText += ch
+        else:
+            # aplica o deslocamento da César apenas em letras
+            position = (alphabet.index(ch) - (value + 1)) % len(alphabet)
+            decryptedText += alphabet[position]
+            
+    print ("Texto decifrado com a cifra de Cesar: ", decryptedText)
+
+    return decryptedText
+    
+# Função para decifrar todo o processo Playfair + César
+def textDecrypt(text, key):
+    # Cria matriz Playfair e aplica transposição
     matrix = createPlayfairMatrix(key)
-    print ("Matriz inicial: ")
+    print("Matriz inicial:")
     printMatrix(matrix)
+    
+    # Consegue o valor para decifrar a cifra de Cesar
     valueLastChar, matrix = transposition(matrix)
-    print ("Matriz com transposicao: ")
+    print("Matriz com transposicao:")
     printMatrix(matrix)
-    decryptedText = cesarDecrypt(text,valueLastChar)
 
-    # Variável que ficará com o texto decifrado
+    # Primeiro decifra César
+    decryptedText = cesarDecrypt(text, valueLastChar)
+
     finalText = ""
+    i = 0
+    while i < len(decryptedText):
+        ch = decryptedText[i]
 
-    # Garante que o texto tenha tamanho par (mesma lógica usada na cifra)
-    if len(decryptedText) % 2 == 1:
-        decryptedText += 'X'
+        # Se for número, copia direto
+        if ch.isdigit():
+            finalText += ch
+            i += 1
+            continue
 
-    # Percorre de 2 em 2 caracteres
-    for i in range(0, len(decryptedText), 2):
-        pairLetters = decryptedText[i:i+2]
+        # Garante sempre um par de letras
+        if i + 1 >= len(decryptedText) or decryptedText[i+1].isdigit():
+            pair = ch + "X"
+            i += 1
+        else:
+            pair = decryptedText[i:i+2]
+            i += 2
 
-        # Localiza as coordenadas na matriz para cada letra
-        line1, column1 = findPositionMatrix(matrix, pairLetters[0])
-        line2, column2 = findPositionMatrix(matrix, pairLetters[1])
+        # Localiza posições na matriz
+        line1, col1 = findPositionMatrix(matrix, pair[0])
+        line2, col2 = findPositionMatrix(matrix, pair[1])
 
-        # Faz a substituição conforme a regra de decifração do Playfair
-        l1, l2 = playfairSubstitutionDec(matrix, line1, line2, column1, column2)
+        # Aplica substituição inversa Playfair
+        l1, l2 = playfairSubstitutionDec(matrix, line1, line2, col1, col2)
         finalText += l1 + l2
 
+    # Remove X de padding, considerando números no final
+    if finalText.endswith("X") and not finalText[-1].isdigit():
+        finalText = finalText[:-1]
+    elif len(finalText) > 1 and finalText[-2] == "X" and finalText[-1].isdigit():
+        finalText = finalText[:-2] + finalText[-1]
+
     print("Texto decifrado com a cifra de PlayFair:", finalText)
-    return decryptedText
-
-    
+    return finalText
 
 
+# Função para ler arquivo criptografado e aplicar decifragem Pizão
 def pizaoDecrypt(encryptFile, decryptFile, key):
     try:
-        #Leitura do arquivo
         with open(encryptFile, "r", encoding="utf-8") as f:
-            encryptedText = f.read() 
-        print(f"texto criptografado: {encryptedText}")      
+            encryptedText = f.read()
+        print(f"Texto criptografado: {encryptedText}")
     except Exception as e:
-        print(f"Ocorreu um erro ao criptografar com Pizao: {e}")
-        return   
-    playfairDecript(encryptedText,key)
+        print(f"Erro ao ler arquivo criptografado: {e}")
+        return
 
+    # Decifra o texto
+    finalText = textDecrypt(encryptedText, key)
+
+    # Salva o resultado no arquivo de saída
+    try:
+        with open(decryptFile, "w", encoding="utf-8") as f:
+            f.write(finalText)
+        print("Arquivo decifrado salvo com sucesso!")
+    except Exception as e:
+        print(f"Erro ao salvar arquivo decifrado: {e}")
 
 
 # Referência para o alg. AES: https://medium.com/@dheeraj.mickey/how-to-encrypt-and-decrypt-files-in-python-using-aes-a-step-by-step-guide-d0eb6f525e4e

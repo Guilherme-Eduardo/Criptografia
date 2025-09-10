@@ -13,7 +13,7 @@ def readFile():
 
 def formatFile(cleanText):
     cleanText = cleanText.upper().replace("J", "I")     # Substitui o J por I
-    cleanText = re.sub(r"[^A-Z]", "", cleanText)        # mantém só A–Z
+    cleanText = re.sub(r"[^A-Z0-9]", "", cleanText)     # Mantém apenas letras A–Z e números
     return cleanText
 
 
@@ -94,9 +94,6 @@ def findPositionMatrix(matrix, char):
                 column = j
                 return line, column
 
-    
-
-
 # Responsavel por fazer as substituções na cifra e retorna as letras para serem concatenadas
 def playfairSubstitutionEnc(matrix, line1, line2, column1, column2):
     # mesma linha
@@ -130,19 +127,27 @@ def playfairEncript(text, key):
     #Variavel que ficará o texto cifrado
     encryptedText = ""
 
-    #Adiciona a letra "X", caso o final do arquivo seja impar
-    if len(text) % 2 == 1:
-        text += 'X'
-    
-    for i in range (0, len(text), 2):
-        #Pega um par de letras (2 em 2)
-        pairLetters = text[i:i+2]
+    i = 0
+    while i < len(text):
+        # Se o caractere for número o mantem no resultado
+        if text[i].isdigit():
+            encryptedText += text[i]
+            i += 1
+            continue
 
-        #Localiza as coordenadas na matriz para a respectiva letra/caracter
-        line1, column1 = findPositionMatrix (matrix, pairLetters[0])
-        line2, column2 = findPositionMatrix (matrix, pairLetters[1])
+        # Garante que sempre tera um par de letras
+        if i + 1 >= len(text) or text[i+1].isdigit():
+            pairLetters = text[i] + "X"
+            i += 1
+        else:
+            pairLetters = text[i:i+2]
+            i += 2
 
-        #Faz a substituição conforme a cifra de playfair e concatena na string 
+        # Localiza posições
+        line1, column1 = findPositionMatrix(matrix, pairLetters[0])
+        line2, column2 = findPositionMatrix(matrix, pairLetters[1])
+
+        # Faz substituição e concatena
         l1, l2 = playfairSubstitutionEnc(matrix, line1, line2, column1, column2)
         encryptedText += l1 + l2
         
@@ -155,10 +160,13 @@ def cesarEncrypt(text, value):
     alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ"
     encryptedText = ""
     
-    for i in range (len(text)):
-        #Pegando o modulo, nunca vamos correr o risco de acessar uma regiao de memoria nao alocada
-        position = (alphabet.index(text[i]) + value + 1) % len(alphabet)
-        encryptedText += alphabet[position]
+    for ch in text:
+        if ch.isdigit():  
+            # mantém os números sem alterar
+            encryptedText += ch
+        else:
+                position = (alphabet.index(ch) + value + 1) % len(alphabet)
+                encryptedText += alphabet[position]
             
     print ("Texto cifrado com a cifra de Cesar: ", encryptedText)
     return encryptedText
