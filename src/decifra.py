@@ -51,6 +51,55 @@ def transposition(matrix):
     matrix[line][column] = first  
     return index, matrix
 
+def cesarDecrypt(text, value):
+    alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ"
+    decryptedText = ""
+    
+    for i in range (len(text)):
+        #Pegando o modulo, nunca vamos correr o risco de acessar uma regiao de memoria nao alocada
+        position = (alphabet.index(text[i]) - (value + 1)) % len(alphabet)
+        decryptedText += alphabet[position]
+            
+    print ("Texto decifrado com a cifra de Cesar: ", decryptedText)
+
+    return decryptedText
+
+# Encontra as posições de linha e coluna da respectiva letra na matriz playfair
+def findPositionMatrix(matrix, char):
+    line = 0
+    column = 0
+    
+    # Se o char for 'J, substitui por I
+    char = 'I' if char == 'J' else char
+    
+    #Encontra linha e coluna na matriz
+    for i in range (0, len(matrix)):        
+        for j in range (0, len(matrix[i])):
+            if (char == matrix[i][j]):
+                line = i
+                column = j
+                return line, column
+
+# Responsável por fazer as substituições na cifra Playfair (decifração)
+def playfairSubstitutionDec(matrix, line1, line2, column1, column2):
+    # mesma linha
+    if line1 == line2:
+        # anda uma coluna para a esquerda (volta ao final se estiver na primeira coluna)
+        char1 = 4 if column1 == 0 else column1 - 1
+        char2 = 4 if column2 == 0 else column2 - 1
+        return matrix[line1][char1], matrix[line2][char2]
+
+    # mesma coluna
+    elif column1 == column2:
+        # anda uma linha para cima (volta ao final se estiver na primeira linha)
+        char1 = 4 if line1 == 0 else line1 - 1
+        char2 = 4 if line2 == 0 else line2 - 1
+        return matrix[char1][column1], matrix[char2][column2]
+
+    # retângulo (troca as colunas)
+    else:
+        return matrix[line1][column2], matrix[line2][column1]
+
 # Todo o processo de criptografia da playfair
 def playfairDecript(text, key):
 #Cria a matriz e já faz a transposição
@@ -60,6 +109,30 @@ def playfairDecript(text, key):
     valueLastChar, matrix = transposition(matrix)
     print ("Matriz com transposicao: ")
     printMatrix(matrix)
+    decryptedText = cesarDecrypt(text,valueLastChar)
+
+    # Variável que ficará com o texto decifrado
+    finalText = ""
+
+    # Garante que o texto tenha tamanho par (mesma lógica usada na cifra)
+    if len(decryptedText) % 2 == 1:
+        decryptedText += 'X'
+
+    # Percorre de 2 em 2 caracteres
+    for i in range(0, len(decryptedText), 2):
+        pairLetters = decryptedText[i:i+2]
+
+        # Localiza as coordenadas na matriz para cada letra
+        line1, column1 = findPositionMatrix(matrix, pairLetters[0])
+        line2, column2 = findPositionMatrix(matrix, pairLetters[1])
+
+        # Faz a substituição conforme a regra de decifração do Playfair
+        l1, l2 = playfairSubstitutionDec(matrix, line1, line2, column1, column2)
+        finalText += l1 + l2
+
+    print("Texto decifrado com a cifra de PlayFair:", finalText)
+    return decryptedText
+
     
 
 
