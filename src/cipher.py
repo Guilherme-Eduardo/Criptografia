@@ -3,28 +3,16 @@
 # Disciplina: Criptografia
 
 
-import re
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
+from utils import printMatrix, formatFile
 
-def readFile():
-    return True
-
-
-def formatFile(cleanText):
-    cleanText = cleanText.upper().replace("J", "I")     # Substitui o J por I
-    cleanText = re.sub(r"[^A-Z0-9]", "", cleanText)     # Mantém apenas letras A–Z e números
-    return cleanText
-
-
-def timeExecution():
-    return True
 
 # Imprime as informações inicias
 def initialInfo(key, text, matrix, valueLastChar):
     print (f"\nChave: {key}")
     print ("Soma do ultimo digito da 1° da linha da tab. ASCII: ", valueLastChar)
-    print (f"Texto Claro: {text}")
+    #print (f"Texto Claro: {text}")
     print ("\nMatriz após a transposicao")
     printMatrix(matrix)
     
@@ -71,12 +59,6 @@ def transposition(matrix):
     return index, matrix
     
     
-def printMatrix(matrix):
-    for i in range(0, len(matrix)):
-        for j in range (0, len(matrix[i])):
-            print (matrix[i][j], end=" ")
-        print ("")
-        
 
 # Encontra as posições de linha e coluna da respectiva letra na matriz playfair
 def findPositionMatrix(matrix, char):
@@ -151,7 +133,7 @@ def playfairEncript(text, key):
         l1, l2 = playfairSubstitutionEnc(matrix, line1, line2, column1, column2)
         encryptedText += l1 + l2
         
-    print ("Texto cifrado com a cifra de PlayFair: ", encryptedText)    
+    #print ("Texto cifrado com a cifra de PlayFair: ", encryptedText)    
     return valueLastChar, encryptedText
 
     
@@ -168,7 +150,7 @@ def cesarEncrypt(text, value):
                 position = (alphabet.index(ch) + value + 1) % len(alphabet)
                 encryptedText += alphabet[position]
             
-    print ("Texto cifrado com a cifra de Cesar: ", encryptedText)
+    #print ("Texto cifrado com a cifra de Cesar: ", encryptedText)
     return encryptedText
     
     
@@ -184,7 +166,7 @@ def pizaoEncrypt(inputFile, outputFile, key):
     cleanText = formatFile(cleanText)
     value, encryptedTextPF = playfairEncript(cleanText, key)
     encryptedTextC = cesarEncrypt (encryptedTextPF, value)    
-    print ("resultado final do Alg Pizao: ", encryptedTextC)
+    #print ("resultado final do Alg Pizao: ", encryptedTextC)
     
     with open(outputFile, 'w') as f:
         f.write(encryptedTextC)

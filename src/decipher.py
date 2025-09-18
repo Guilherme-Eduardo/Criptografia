@@ -100,7 +100,7 @@ def cesarDecrypt(text, value):
             position = (alphabet.index(ch) - (value + 1)) % len(alphabet)
             decryptedText += alphabet[position]
             
-    print ("Texto decifrado com a cifra de Cesar: ", decryptedText)
+    #print ("Texto decifrado com a cifra de Cesar: ", decryptedText)
 
     return decryptedText
     
@@ -152,7 +152,7 @@ def textDecrypt(text, key):
     elif len(finalText) > 1 and finalText[-2] == "X" and finalText[-1].isdigit():
         finalText = finalText[:-2] + finalText[-1]
 
-    print("Texto decifrado com a cifra de PlayFair:", finalText)
+    #print("Texto decifrado com a cifra de PlayFair:", finalText)
     return finalText
 
 
@@ -161,7 +161,7 @@ def pizaoDecrypt(encryptFile, decryptFile, key):
     try:
         with open(encryptFile, "r", encoding="utf-8") as f:
             encryptedText = f.read()
-        print(f"Texto criptografado: {encryptedText}")
+        #print(f"Texto criptografado: {encryptedText}")
     except Exception as e:
         print(f"Erro ao ler arquivo criptografado: {e}")
         return
