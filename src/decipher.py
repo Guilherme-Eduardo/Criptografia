@@ -167,6 +167,7 @@ def pizaoDecrypt(encryptFile, decryptFile, key):
         return
 
     # Decifra o texto
+    print ("Decifrando com o nosso algoritmo (Pizao)!")        
     finalText = textDecrypt(encryptedText, key)
 
     # Salva o resultado no arquivo de saída

@@ -16,10 +16,11 @@ def printMatrix(matrix):
 #Retorna as informações sobre tempo de duraçao da cifra/decifra
 def timeEvaluation(name, type, initTime, endTime):
     totalTime = endTime - initTime
-    print ("*"*80)
-    print (f"Nome do algoritmo: {name}")
-    print (type)
+    print("")
+    print(f"Avaliação da {type}")
+    print (f"Nome do algoritmo: {name}")    
     print(f"Tempo decorrido: {totalTime:.6f} segundos\n")
+    print ("*"*80)
     
 
 #Função de escrita dos valores

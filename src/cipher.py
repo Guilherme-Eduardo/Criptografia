@@ -8,6 +8,7 @@ from Crypto.Random import get_random_bytes
 from utils import printMatrix, formatFile
 
 
+
 # Imprime as informações inicias
 def initialInfo(key, text, matrix, valueLastChar):
     print (f"\nChave: {key}")
@@ -75,6 +76,8 @@ def findPositionMatrix(matrix, char):
                 line = i
                 column = j
                 return line, column
+            
+    return findPositionMatrix(matrix, 'X')
 
 # Responsavel por fazer as substituções na cifra e retorna as letras para serem concatenadas
 def playfairSubstitutionEnc(matrix, line1, line2, column1, column2):
@@ -163,6 +166,7 @@ def pizaoEncrypt(inputFile, outputFile, key):
         print(f"Ocorreu um erro ao criptografar com Pizao: {e}")
         return    
     
+    print ("\n\nIniciando a criptografia com o nosso algoritmo (Pizao)!")
     cleanText = formatFile(cleanText)
     value, encryptedTextPF = playfairEncript(cleanText, key)
     encryptedTextC = cesarEncrypt (encryptedTextPF, value)    
