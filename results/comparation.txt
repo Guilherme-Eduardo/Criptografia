@@ -1,0 +1,84 @@
+Rodada 0
+Extraindo informações do livro ../documents/Moby Dick; Or, The Whale by Herman Melville - 1,4MB.txt
+Nossa proposta
+
+Avaliação da Cifra
+Nome do algoritmo: Pizao
+Tempo decorrido: 0.841189 segundos
+********************************************************************************
+
+
+Avaliação da Decifra
+Nome do algoritmo: Pizao
+Tempo decorrido: 0.826099 segundos
+********************************************************************************
+
+AES
+
+Avaliação da Cifra
+Nome do algoritmo: AES
+Tempo decorrido: 0.010975 segundos
+********************************************************************************
+
+
+Avaliação da Decifra
+Nome do algoritmo: AES
+Tempo decorrido: 0.001685 segundos
+********************************************************************************
+
+Rodada 1
+Extraindo informações do livro ../documents/Moby Multiple Language Lists of Common Words by Grady Ward - 22 kB.txt
+Nossa proposta
+
+Avaliação da Cifra
+Nome do algoritmo: Pizao
+Tempo decorrido: 0.016429 segundos
+********************************************************************************
+
+
+Avaliação da Decifra
+Nome do algoritmo: Pizao
+Tempo decorrido: 0.015887 segundos
+********************************************************************************
+
+AES
+
+Avaliação da Cifra
+Nome do algoritmo: AES
+Tempo decorrido: 0.000114 segundos
+********************************************************************************
+
+
+Avaliação da Decifra
+Nome do algoritmo: AES
+Tempo decorrido: 0.000063 segundos
+********************************************************************************
+
+Rodada 2
+Extraindo informações do livro ../documents/Romeo and Juliet by William Shakespeare - 100KB.txt
+Nossa proposta
+
+Avaliação da Cifra
+Nome do algoritmo: Pizao
+Tempo decorrido: 0.108106 segundos
+********************************************************************************
+
+
+Avaliação da Decifra
+Nome do algoritmo: Pizao
+Tempo decorrido: 0.105767 segundos
+********************************************************************************
+
+AES
+
+Avaliação da Cifra
+Nome do algoritmo: AES
+Tempo decorrido: 0.000323 segundos
+********************************************************************************
+
+
+Avaliação da Decifra
+Nome do algoritmo: AES
+Tempo decorrido: 0.000227 segundos
+********************************************************************************
+
