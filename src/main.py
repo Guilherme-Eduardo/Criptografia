@@ -5,7 +5,9 @@
 from cipher import aesEncrypt, pizaoEncrypt
 from decipher import aesDecrypt, pizaoDecrypt
 import timeit
+import numpy as np
 from utils import timeEvaluation
+import matplotlib.pyplot as plt
 
 
 def main():
@@ -40,6 +42,11 @@ def main():
         "../results/EncryptedAES-Moby Multiple.bin",
         "../results/EncryptedAES-Romeo and Juliet.bin" 
     ]
+    
+    # Listas para guardar tempos
+    livros = ["Moby Dick (1.4MB)", "Moby Multiple (22kB)", "Romeo & Juliet (100kB)"]
+    pizao_cifra, pizao_decifra = [], []
+    aes_cifra, aes_decifra = [], []
     
     #Definindo o valor da chave
     pizaoKey = "HELOISA"
@@ -81,6 +88,47 @@ def main():
             f.write(str(timeEvaluation("AES", "Cifra", aesEncInitialTime, aesEncEndTime)) + "\n")
             f.write(str(timeEvaluation("AES", "Decifra", aesDecInitialTime, aesDecEndTime)) + "\n")
             print ("Arquivos salvos com sucesso!")
+                        # Guardar tempos em listas
+            pizao_cifra.append(pizaoEncEndTime - pizaoEncInitialTime)
+            pizao_decifra.append(pizaoDecEndTime - pizaoDecInitialTime)
+            aes_cifra.append(aesEncEndTime - aesEncInitialTime)
+            aes_decifra.append(aesDecEndTime - aesDecInitialTime)
+
+    # --- Gráficos comparativos ---
+    x = np.arange(len(livros))
+    largura = 0.35
+
+    # Cifra
+    fig, ax = plt.subplots(figsize=(8, 16))  # largura=8, altura=6 polegadas
+
+    ax.bar(x - largura/2, pizao_cifra, largura, label="Pizao")
+    ax.bar(x + largura/2, aes_cifra, largura, label="AES")
+    ax.set_ylim(1e-5, max(pizao_cifra) * 1.2)
+
+    ax.set_ylabel("Tempo (s)")
+    ax.set_title("Comparação de tempos - Cifra")
+    ax.set_xticks(x)
+    ax.set_xticklabels(livros, rotation=20)
+    ax.legend()
+    plt.tight_layout()
+    plt.savefig("../results/comparacao_cifra.png")
+    plt.show()
+
+    # Decifra
+    fig, ax = plt.subplots(figsize=(8,16))  # largura=8, altura=6 polegadas
+
+    ax.bar(x - largura/2, pizao_decifra, largura, label="Pizao")
+    ax.bar(x + largura/2, aes_decifra, largura, label="AES")
+    ax.set_ylim(1e-5, max(pizao_cifra) * 1.2)
+
+    ax.set_ylabel("Tempo (s)")
+    ax.set_title("Comparação de tempos - Decifra")
+    ax.set_xticks(x)
+    ax.set_xticklabels(livros, rotation=20)
+    ax.legend()
+    plt.tight_layout()
+    plt.savefig("../results/comparacao_decifra.png")
+    plt.show()
             
 
 if __name__ == '__main__': 

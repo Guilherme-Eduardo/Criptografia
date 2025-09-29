@@ -4,26 +4,26 @@ Nossa proposta
 
 Avaliação da Cifra
 Nome do algoritmo: Pizao
-Tempo decorrido: 0.841189 segundos
+Tempo decorrido: 1.173205 segundos
 ********************************************************************************
 
 
 Avaliação da Decifra
 Nome do algoritmo: Pizao
-Tempo decorrido: 0.826099 segundos
+Tempo decorrido: 1.094271 segundos
 ********************************************************************************
 
 AES
 
 Avaliação da Cifra
 Nome do algoritmo: AES
-Tempo decorrido: 0.010975 segundos
+Tempo decorrido: 0.003471 segundos
 ********************************************************************************
 
 
 Avaliação da Decifra
 Nome do algoritmo: AES
-Tempo decorrido: 0.001685 segundos
+Tempo decorrido: 0.003251 segundos
 ********************************************************************************
 
 Rodada 1
@@ -32,26 +32,26 @@ Nossa proposta
 
 Avaliação da Cifra
 Nome do algoritmo: Pizao
-Tempo decorrido: 0.016429 segundos
+Tempo decorrido: 0.021065 segundos
 ********************************************************************************
 
 
 Avaliação da Decifra
 Nome do algoritmo: Pizao
-Tempo decorrido: 0.015887 segundos
+Tempo decorrido: 0.020509 segundos
 ********************************************************************************
 
 AES
 
 Avaliação da Cifra
 Nome do algoritmo: AES
-Tempo decorrido: 0.000114 segundos
+Tempo decorrido: 0.000222 segundos
 ********************************************************************************
 
 
 Avaliação da Decifra
 Nome do algoritmo: AES
-Tempo decorrido: 0.000063 segundos
+Tempo decorrido: 0.000165 segundos
 ********************************************************************************
 
 Rodada 2
@@ -60,25 +60,25 @@ Nossa proposta
 
 Avaliação da Cifra
 Nome do algoritmo: Pizao
-Tempo decorrido: 0.108106 segundos
+Tempo decorrido: 0.143716 segundos
 ********************************************************************************
 
 
 Avaliação da Decifra
 Nome do algoritmo: Pizao
-Tempo decorrido: 0.105767 segundos
+Tempo decorrido: 0.138009 segundos
 ********************************************************************************
 
 AES
 
 Avaliação da Cifra
 Nome do algoritmo: AES
-Tempo decorrido: 0.000323 segundos
+Tempo decorrido: 0.000546 segundos
 ********************************************************************************
 
 
 Avaliação da Decifra
 Nome do algoritmo: AES
-Tempo decorrido: 0.000227 segundos
+Tempo decorrido: 0.000478 segundos
 ********************************************************************************
 
