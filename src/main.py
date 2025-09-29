@@ -99,37 +99,54 @@ def main():
     largura = 0.35
 
     # Cifra
-    fig, ax = plt.subplots(figsize=(8, 16))  # largura=8, altura=6 polegadas
+    cores = plt.cm.Set2.colors
 
-    ax.bar(x - largura/2, pizao_cifra, largura, label="Pizao")
-    ax.bar(x + largura/2, aes_cifra, largura, label="AES")
-    ax.set_ylim(1e-5, max(pizao_cifra) * 1.2)
+    fig, ax = plt.subplots(figsize=(8,6))
 
+    ax.bar(x - largura/2, pizao_cifra, largura, label="Pizao", color=cores[0])
+    ax.bar(x + largura/2, aes_cifra, largura, label="AES", color=cores[1])
+
+    ax.set_yscale("log")  # escala log eixo y
     ax.set_ylabel("Tempo (s)")
     ax.set_title("Comparação de tempos - Cifra")
     ax.set_xticks(x)
     ax.set_xticklabels(livros, rotation=20)
     ax.legend()
+    ax.grid(axis="y", linestyle="--", alpha=0.7)
+
+    # Mostrar valores
+    for i, v in enumerate(pizao_cifra):
+        ax.text(i - largura/2, v, f"{v:.2f}", ha="center", va="bottom")
+    for i, v in enumerate(aes_cifra):
+        ax.text(i + largura/2, v, f"{v:.4f}", ha="center", va="bottom")
+
     plt.tight_layout()
     plt.savefig("../results/comparacao_cifra.png")
     plt.show()
 
     # Decifra
-    fig, ax = plt.subplots(figsize=(8,16))  # largura=8, altura=6 polegadas
+    fig, ax = plt.subplots(figsize=(8,6))
 
-    ax.bar(x - largura/2, pizao_decifra, largura, label="Pizao")
-    ax.bar(x + largura/2, aes_decifra, largura, label="AES")
-    ax.set_ylim(1e-5, max(pizao_cifra) * 1.2)
+    ax.bar(x - largura/2, pizao_decifra, largura, label="Pizao", color=cores[0])
+    ax.bar(x + largura/2, aes_decifra, largura, label="AES", color=cores[1])
 
+    ax.set_yscale("log") # escala log eixo y
     ax.set_ylabel("Tempo (s)")
     ax.set_title("Comparação de tempos - Decifra")
     ax.set_xticks(x)
     ax.set_xticklabels(livros, rotation=20)
     ax.legend()
+    ax.grid(axis="y", linestyle="--", alpha=0.7)
+
+    # Mostrar valores
+    for i, v in enumerate(pizao_decifra):
+        ax.text(i - largura/2, v, f"{v:.2f}", ha="center", va="bottom")
+    for i, v in enumerate(aes_decifra):
+        ax.text(i + largura/2, v, f"{v:.4f}", ha="center", va="bottom")
+
     plt.tight_layout()
     plt.savefig("../results/comparacao_decifra.png")
     plt.show()
-            
 
 if __name__ == '__main__': 
     main()
